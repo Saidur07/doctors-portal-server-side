@@ -29,6 +29,7 @@ async function run() {
       const services = await cursor.toArray();
       res.send(services);
     });
+
     // Warning: This is not the proper way to query multiple collection.
     // After learning more about mongodb. use aggregate, lookup, pipeline, match, group
     app.get("/available", async (req, res) => {
@@ -56,8 +57,26 @@ async function run() {
         //step 7: set available to slots to make it easier
         service.slots = available;
       });
+
       res.send(services);
     });
+
+    /**
+     * API Naming Convention
+     * app.get('/booking') // get all bookings in this collection. or get more than one or by filter
+     * app.get('/booking/:id') // get a specific booking
+     * app.post('/booking') // add a new booking
+     * app.patch('/booking/:id) //
+     * app.delete('/booking/:id) //
+     */
+
+    app.get("/booking", async (req, res) => {
+      const patient = req.query.patient;
+      const query = { patient: patient };
+      const bookings = await bookingCollection.find(query).toArray();
+      res.send(bookings);
+    });
+
     app.post("/booking", async (req, res) => {
       const booking = req.body;
       const query = {
