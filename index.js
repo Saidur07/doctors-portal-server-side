@@ -22,6 +22,7 @@ async function run() {
     await client.connect();
     const serviceCollection = client.db("doctorsPortal").collection("services");
     const bookingCollection = client.db("doctorsPortal").collection("bookings");
+    const userCollection = client.db("doctorsPortal").collection("users");
 
     app.get("/service", async (req, res) => {
       const query = {};
